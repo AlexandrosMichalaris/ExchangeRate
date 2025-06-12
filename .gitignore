@@ -1,0 +1,16 @@
+# App config
+**/appsettings.json
+**/appsettings.*.json
+
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore DLL files
+*.dll
+
+# Optional: ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
