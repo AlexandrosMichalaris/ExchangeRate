@@ -7,13 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ExchangeRate.Infrastructure\ExchangeRate.Infrastructure.csproj" />
-      <ProjectReference Include="..\ExchangeRate.Model\ExchangeRate.Model.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="AutoMapper" Version="14.0.0" />
-      <PackageReference Include="Quartz" Version="3.14.0" />
     </ItemGroup>
 
 </Project>

@@ -6,6 +6,8 @@
 bin/
 obj/
 
+**/Migrations/
+
 # Ignore DLL files
 *.dll
 

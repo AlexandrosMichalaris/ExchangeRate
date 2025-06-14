@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRate.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRate.Model", "ExchangeRate.Model\ExchangeRate.Model.csproj", "{B5F9AF8E-1B89-48EB-A784-0AC281F9D55F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRate.Mapping", "ExchangeRate.Mapping\ExchangeRate.Mapping.csproj", "{5DA8975E-6C5E-485D-A280-A66AB14DC9B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRate.Test", "ExchangeRate.Test\ExchangeRate.Test.csproj", "{F33FA151-82CE-4895-9525-DA3F73292463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{B5F9AF8E-1B89-48EB-A784-0AC281F9D55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5F9AF8E-1B89-48EB-A784-0AC281F9D55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5F9AF8E-1B89-48EB-A784-0AC281F9D55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA8975E-6C5E-485D-A280-A66AB14DC9B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA8975E-6C5E-485D-A280-A66AB14DC9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA8975E-6C5E-485D-A280-A66AB14DC9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA8975E-6C5E-485D-A280-A66AB14DC9B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33FA151-82CE-4895-9525-DA3F73292463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33FA151-82CE-4895-9525-DA3F73292463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33FA151-82CE-4895-9525-DA3F73292463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33FA151-82CE-4895-9525-DA3F73292463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

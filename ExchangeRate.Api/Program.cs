@@ -15,7 +15,7 @@ builder.Services.Configure<EcbEuropaSettings>(builder.Configuration.GetSection("
 builder.Services.ConfigureServices();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DataCenter")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ExchangeRate")));
 
 builder.Services.AddQuartzHostedService();
 

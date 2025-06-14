@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ExchangeRate.Model;
+namespace ExchangeRate.Model.Entities;
 
-public class ExchangeRate
+public class ExchangeRateEntity
 {
     public int Id { get; set; }
 
