@@ -9,5 +9,7 @@ public class WalletTransactionEntity
 
     public decimal Amount { get; set; }
 
+    public string Strategy { get; set; } = default!;
+
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }

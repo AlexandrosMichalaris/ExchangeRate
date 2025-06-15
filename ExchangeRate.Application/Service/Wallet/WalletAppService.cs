@@ -8,15 +8,15 @@ using Model.ApiResponse;
 
 namespace ExchangeRate.Application.Service.Wallet;
 
-public class WalletAppService : IWalletService
+public class WalletAppService : IWalletAppService
 {
     private readonly ILogger<WalletAppService> _logger;
-    private readonly IAdjustmentService _walletService;
+    private readonly IAdjustmentService _adjustmentService;
     private readonly IExchangeRateRepository _exchangeRateRepository;
 
-    public WalletAppService(IAdjustmentService walletService, IExchangeRateRepository exchangeRateRepository, ILogger<WalletAppService> logger)
+    public WalletAppService(IAdjustmentService adjustmentService, IExchangeRateRepository exchangeRateRepository, ILogger<WalletAppService> logger)
     {
-        _walletService = walletService;
+        _adjustmentService = adjustmentService;
         _exchangeRateRepository = exchangeRateRepository;
         _logger = logger;
     }
@@ -26,13 +26,13 @@ public class WalletAppService : IWalletService
         if (!CurrencyHelper.IsSupported(dto.Currency))
             return new ApiResponse<object>(null, false, "Unsupported currency");
 
-        var walletId = await _walletService.CreateWalletAsync(CurrencyHelper.Normalize(dto.Currency));
+        var walletId = await _adjustmentService.CreateWalletAsync(CurrencyHelper.Normalize(dto.Currency));
         return new ApiResponse<object>(new { walletId }, "Wallet created successfully");
     }
 
     public async Task<ApiResponse<WalletBalanceResponseDto>> GetWalletBalanceAsync(long walletId, string? currency)
     {
-        var wallet = await _walletService.GetWalletAsync(walletId);
+        var wallet = await _adjustmentService.GetWalletAsync(walletId);
         if (wallet == null)
             return new ApiResponse<WalletBalanceResponseDto>(null, false, "Wallet not found");
 
@@ -43,7 +43,7 @@ public class WalletAppService : IWalletService
         if (!CurrencyHelper.IsSupported(targetCurrency))
             return new ApiResponse<WalletBalanceResponseDto>(null, false, "Unsupported currency");
 
-        decimal convertedBalance = wallet.Balance;
+        var convertedBalance = wallet.Balance;
 
         if (targetCurrency != wallet.Currency)
         {
@@ -72,14 +72,14 @@ public class WalletAppService : IWalletService
 
         try
         {
-            var wallet = await _walletService.GetWalletAsync(walletId);
+            var wallet = await _adjustmentService.GetWalletAsync(walletId);
             if (wallet == null)
                 return new ApiResponse<string>(null, false, "Wallet not found");
 
             var fromCurrency = CurrencyHelper.Normalize(dto.Currency);
             var toCurrency = wallet.Currency;
 
-            decimal adjustedAmount = dto.Amount;
+            var adjustedAmount = dto.Amount;
 
             if (fromCurrency != toCurrency)
             {
@@ -95,7 +95,7 @@ public class WalletAppService : IWalletService
                 throw new InvalidOperationException($"Invalid strategy type: {dto.Strategy}");
             }
 
-            await _walletService.AdjustBalanceAsync(walletId, adjustedAmount, strategy);
+            await _adjustmentService.AdjustBalanceAsync(walletId, adjustedAmount, strategy);
 
             return new ApiResponse<string>("Balance adjusted successfully", "OK");
         }

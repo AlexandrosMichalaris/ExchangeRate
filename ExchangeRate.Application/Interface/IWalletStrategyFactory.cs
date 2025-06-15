@@ -4,5 +4,5 @@ namespace ExchangeRate.Application.Interface;
 
 public interface IWalletStrategyFactory
 {
-    IAdjustWallet GetStrategy(AdjustmentType strategy);
+    IAdjustWalletStrategy GetStrategy(AdjustmentType strategy);
 }

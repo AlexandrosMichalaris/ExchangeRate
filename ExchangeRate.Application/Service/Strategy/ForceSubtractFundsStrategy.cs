@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRate.Application.Service.Strategy;
 
-public class ForceSubtractFunds : IAdjustWallet
+public class ForceSubtractFundsStrategy : IAdjustWalletStrategy
 {
-    private readonly ILogger<ForceSubtractFunds> _logger;
+    private readonly ILogger<ForceSubtractFundsStrategy> _logger;
     
-    public ForceSubtractFunds(ILogger<ForceSubtractFunds> logger)
+    public ForceSubtractFundsStrategy(ILogger<ForceSubtractFundsStrategy> logger)
     {
         _logger = logger;
     }

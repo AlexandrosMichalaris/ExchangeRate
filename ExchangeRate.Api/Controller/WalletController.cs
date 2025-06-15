@@ -10,31 +10,31 @@ namespace ExchangeRate.Controller;
 [Route("api/wallets")]
 public class WalletController : ControllerBase
 {
-    private readonly IWalletService _walletAppService;
+    private readonly IWalletAppService _walletAppAppService;
 
-    public WalletController(IWalletService walletAppService)
+    public WalletController(IWalletAppService walletAppAppService)
     {
-        _walletAppService = walletAppService;
+        _walletAppAppService = walletAppAppService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateWallet([FromBody] CreateWalletRequestDto dto)
     {
-        var response = await _walletAppService.CreateWalletAsync(dto);
+        var response = await _walletAppAppService.CreateWalletAsync(dto);
         return StatusCode(response.Success ? 200 : 400, response);
     }
 
     [HttpGet("{walletId:long}")]
     public async Task<IActionResult> GetWallet(long walletId, [FromQuery] string? currency = null)
     {
-        var response = await _walletAppService.GetWalletBalanceAsync(walletId, currency);
+        var response = await _walletAppAppService.GetWalletBalanceAsync(walletId, currency);
         return StatusCode(response.Success ? 200 : 400, response);
     }
 
     [HttpPost("{walletId:long}/adjustbalance")]
-    public async Task<IActionResult> AdjustBalance(long walletId, [FromBody] AdjustBalanceRequestDto dto)
+    public async Task<IActionResult> AdjustBalance(long walletId, [FromQuery] AdjustBalanceRequestDto dto)
     {
-        var response = await _walletAppService.AdjustWalletBalanceAsync(walletId, dto);
+        var response = await _walletAppAppService.AdjustWalletBalanceAsync(walletId, dto);
         return StatusCode(response.Success ? 200 : 400, response);
     }
 }

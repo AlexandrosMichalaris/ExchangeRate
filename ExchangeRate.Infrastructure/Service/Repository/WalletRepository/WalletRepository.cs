@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeRate.Infrastructure.Service.Repositories.WalletRepository;
 
-public class WalletTransactionRepository : EntityRepository<WalletTransactionEntity, DatabaseContext>, IWalletTransactionRepository
+public class WalletRepository : EntityRepository<WalletEntity, DatabaseContext>, IWalletRepository
 {
-    public WalletTransactionRepository(DatabaseContext dbContext) : base(dbContext)
+    public WalletRepository(DatabaseContext dbContext) : base(dbContext)
     {
     }
 }

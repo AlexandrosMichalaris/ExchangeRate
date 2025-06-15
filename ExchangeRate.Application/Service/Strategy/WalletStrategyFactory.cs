@@ -5,14 +5,14 @@ namespace ExchangeRate.Application.Service.Strategy;
 
 public class WalletStrategyFactory :IWalletStrategyFactory
 {
-    private readonly IEnumerable<IAdjustWallet> _handlers;
+    private readonly IEnumerable<IAdjustWalletStrategy> _handlers;
 
-    public WalletStrategyFactory(IEnumerable<IAdjustWallet> handlers)
+    public WalletStrategyFactory(IEnumerable<IAdjustWalletStrategy> handlers)
     {
         _handlers = handlers;
     }
     
-    public IAdjustWallet GetStrategy(AdjustmentType strategy)
+    public IAdjustWalletStrategy GetStrategy(AdjustmentType strategy)
     {
         var implementation = _handlers.SingleOrDefault(x => x.Type == strategy);
         

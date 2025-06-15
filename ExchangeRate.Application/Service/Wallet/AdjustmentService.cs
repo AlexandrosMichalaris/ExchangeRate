@@ -9,14 +9,14 @@ namespace ExchangeRate.Application.Service.Wallet;
 public class AdjustmentService : IAdjustmentService
 {
     private readonly IWalletRepository _walletRepo;
-    private readonly IWalletTransaction _walletTransaction;
-    private readonly WalletStrategyFactory _strategyFactory;
+    private readonly IWalletTransactionRepository _walletTransactionRepository;
+    private readonly IWalletStrategyFactory _strategyFactory;
 
-    public AdjustmentService(IWalletRepository walletRepo, WalletStrategyFactory strategyFactory, IWalletTransaction walletTransaction)
+    public AdjustmentService(IWalletRepository walletRepo, IWalletStrategyFactory strategyFactory, IWalletTransactionRepository walletTransactionRepository)
     {
         _walletRepo = walletRepo;
         _strategyFactory = strategyFactory;
-        _walletTransaction = walletTransaction;
+        _walletTransactionRepository = walletTransactionRepository;
     }
 
     public async Task AdjustBalanceAsync(long walletId, decimal amount, AdjustmentType strategy)
@@ -33,10 +33,11 @@ public class AdjustmentService : IAdjustmentService
         var transaction = new WalletTransactionEntity
         {
             WalletId = walletId,
-            Amount = amount
+            Amount = amount,
+            Strategy = strategy.ToString()
         };
 
-        await _walletTransaction.AddAsync(transaction);
+        await _walletTransactionRepository.AddAsync(transaction);
     }
 
     public async Task<WalletEntity> GetWalletAsync(long walletId)

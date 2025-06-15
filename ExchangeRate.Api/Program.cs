@@ -14,6 +14,29 @@ builder.Services.Configure<EcbEuropaSettings>(builder.Configuration.GetSection("
 // Configure services using the static class method
 builder.Services.ConfigureServices();
 
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+
+    var jobKey = new JobKey("ExchangeRateJob");
+
+    q.AddJob<UpdateExchangeRatesJob>(opts => opts.WithIdentity(jobKey));
+
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("ExchangeRateTrigger")
+        .WithSimpleSchedule(x => x
+            .WithIntervalInMinutes(1)
+            .RepeatForever())
+        .StartNow()
+    );
+});
+
+Console.WriteLine("Job registered!");
+        
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ExchangeRate")));
 

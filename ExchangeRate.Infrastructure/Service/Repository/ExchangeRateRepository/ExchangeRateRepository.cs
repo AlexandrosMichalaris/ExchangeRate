@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using ExchangeRate.Infrastructure.Configuration.Database;
 using ExchangeRate.Infrastructure.Interface;
 using ExchangeRate.Model.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,12 @@ namespace ExchangeRate.Infrastructure.Service.Repositories;
 /// <summary>
 /// Added general entity repository to future proof this.
 /// </summary>
-public class ExchangeRateRepository : EntityRepository<ExchangeRateEntity, DbContext>, IExchangeRateRepository
+public class ExchangeRateRepository : EntityRepository<ExchangeRateEntity, DatabaseContext>, IExchangeRateRepository
 {
-    private readonly DbContext _context;
+    private readonly DatabaseContext _context;
     private readonly DbSet<ExchangeRateEntity> _dbSet;
 
-    public ExchangeRateRepository(DbContext context) : base(context)
+    public ExchangeRateRepository(DatabaseContext context) : base(context)
     {
         _context = context;
         _dbSet = _context.Set<ExchangeRateEntity>();
@@ -62,21 +63,28 @@ public class ExchangeRateRepository : EntityRepository<ExchangeRateEntity, DbCon
     {
         var sb = new StringBuilder();
 
-        // One round trip, all logic inside the DB engine
-        sb.AppendLine("MERGE INTO ExchangeRates AS Target");
+        sb.AppendLine("MERGE INTO public.\"ExchangeRates\" AS Target");
         sb.AppendLine("USING (VALUES");
 
         var valueLines = rates.Select(r =>
-            $"('{r.Currency}', '{r.Date:yyyy-MM-dd}', {r.Rate.ToString(CultureInfo.InvariantCulture)})");
+            $"('{EscapeSqlLiteral(r.Currency)}', '{r.Date:yyyy-MM-dd}'::timestamptz, {r.Rate.ToString(CultureInfo.InvariantCulture)})"
+        );
 
         sb.AppendLine(string.Join(",\n", valueLines));
 
-        sb.AppendLine(") AS Source (Currency, Date, Rate)");
-        sb.AppendLine("ON Target.Currency = Source.Currency AND Target.Date = Source.Date");
-        sb.AppendLine("WHEN MATCHED THEN UPDATE SET Target.Rate = Source.Rate");
-        sb.AppendLine("WHEN NOT MATCHED THEN INSERT (Currency, Date, Rate)");
-        sb.AppendLine("VALUES (Source.Currency, Source.Date, Source.Rate);");
+        sb.AppendLine(") AS Source(\"Currency\", \"Date\", \"Rate\")");
+        sb.AppendLine("ON Target.\"Currency\" = Source.\"Currency\" AND Target.\"Date\" = Source.\"Date\"");
+        sb.AppendLine("WHEN MATCHED THEN");
+        sb.AppendLine("    UPDATE SET \"Rate\" = Source.\"Rate\"");
+        sb.AppendLine("WHEN NOT MATCHED THEN");
+        sb.AppendLine("    INSERT (\"Currency\", \"Date\", \"Rate\", \"CreatedAt\")");
+        sb.AppendLine("    VALUES (Source.\"Currency\", Source.\"Date\", Source.\"Rate\", NOW());");
 
         return sb.ToString();
+    }
+
+    private string EscapeSqlLiteral(string input)
+    {
+        return input.Replace("'", "''");
     }
 }

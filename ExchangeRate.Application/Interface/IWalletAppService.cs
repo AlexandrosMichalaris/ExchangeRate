@@ -3,7 +3,7 @@ using Model.ApiResponse;
 
 namespace ExchangeRate.Application.Interface;
 
-public interface IWalletService
+public interface IWalletAppService
 {
     Task<ApiResponse<object>> CreateWalletAsync(CreateWalletRequestDto dto);
     

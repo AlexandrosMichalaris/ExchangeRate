@@ -10,17 +10,14 @@ public class UpdateExchangeRatesJob : IJob
 {
     private readonly IExchangeRateProvider _rateProvider;
     private readonly IExchangeRateRepository _rateRepository;
-    private readonly IMapper _mapper;
     private readonly ILogger<UpdateExchangeRatesJob> _logger;
 
     public UpdateExchangeRatesJob(
         IExchangeRateProvider rateProvider,
-        IExchangeRateRepository rateRepository,
-        IMapper mapper)
+        IExchangeRateRepository rateRepository)
     {
         _rateProvider = rateProvider;
         _rateRepository = rateRepository;
-        _mapper = mapper; //Todo create autpmapper
     }
     
     public async Task Execute(IJobExecutionContext context)

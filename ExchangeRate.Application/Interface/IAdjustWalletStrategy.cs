@@ -3,7 +3,7 @@ using ExchangeRate.Model.Entities;
 
 namespace ExchangeRate.Application.Interface;
 
-public interface IAdjustWallet
+public interface IAdjustWalletStrategy
 {
     public AdjustmentType Type { get; }
     
